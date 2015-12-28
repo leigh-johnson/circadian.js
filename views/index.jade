@@ -1,1 +1,7 @@
 extends layout
+
+append js
+  script.
+    navigator.geolocation.getCurrentPosition(function(position) {
+      window.location.search = 'lat=' + position.coords.latitude + 'long=' + position.coords.longitude;
+    });
