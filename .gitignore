@@ -3,6 +3,8 @@
 logs
 *.log
 
+.sass-cache
+
 # Text editor
 *sublime*
 

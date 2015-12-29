@@ -2,7 +2,7 @@
 var express = require('express');
 var suncalc = require('suncalc');
 var ct = require('color-temperature');
-var one = require('onecolor');
+var onecolor = require('onecolor');
 
 
 var app = express();
@@ -44,7 +44,7 @@ var getTimes = function(dateTime, lat, long){
   return times
 };
 
-var setEvents = function(times){ 
+var setEvents = function(times, lat, long){ 
   // Set sunrise 2000k
   // Set twilight 3500k
   // Set early morning 4300k
@@ -84,7 +84,10 @@ var setEvents = function(times){
     }
   };
   for (var event in events){
-    event.dateTime = times[event]
+    events[event].dateTime = times[event];
+    // sun azimuth (direction along the horizon, measured from south to west), e.g. 0 is south and Math.PI * 3/4 is northwest
+    // in degrees
+    events[event].azimuth = (suncalc.getPosition(times[event], lat, long)).azimuth * 180 / Math.PI;
   }
   return events
 };
@@ -93,28 +96,41 @@ var setColors = function(events){
   rgbStr = function(rgb){
     return 'rgb(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + (')')
   }
-  for (i=0; i < events.length; i++){
-    color = one.color(rgbStr(events[i].rgb));
-    events[i].hex = color.hex();
-    events[i].hsv = color.hsv();
-    events[i].cmyk = color.cmyk();
+  for (var event in events){
+    color = onecolor(rgbStr(events[event].rgb));
+    events[event].hex = color.hex();
+    events[event].hsv = color.hsv();
+    events[event].cmyk = color.cmyk();
   }
+  
   return events
 };
 
 // Gradient constructor
 var buildGradient = function(events){
+  keys = Object.keys(events)
   // Color stops. Max: 1 / minute
-  for (i=0; i < events.length; i++){
+  for (var i=0; i < keys.length; i++){
+    current = keys[i]
+    next = keys[i+1]
+    if (next == undefined){ next = 'dawn'}
     // in ms
-    var diff = events[i+1].dateTime - events[i].time;
+    var diff = events[current].dateTime - events[next].dateTime;
     // ms / 60,000 == m
-    diff = round(diff/60,000);
-    events[i].gradient = Gradient(events[i].hex, events[i+1].hex, diff);
+    diff = Math.round(diff/60,000);
+    console.log(diff)
+    //events[i].gradient = Gradient(events[i].hex, events[i+1].hex, diff);
   }
   return events
   // dawn, sunrise, goldenHourEnd, solarNoon, goldenHour, sunset, dusk
 };
+
+// Events Constructor
+var buildColors = function(events){
+    events = setColors(events);
+    events = buildGradient(events);
+    return events
+}
 
 app.get('/', function(req, res, next){
   res.render('index')
@@ -131,10 +147,9 @@ app.get('/api/v1/gradient', function(req, res, next){
   }
   else{
     times = getTimes(new Date(), req.query.lat, req.query.long);
-    events = setEvents(times);
-    events = setColors(events);
-    events = buildGradient(events);
-    res.status(200).json(events)
+    events = setEvents(times, req.query.lat, req.query.long);
+    data = buildColors(events);
+    res.status(200).json(data)
   }
   // 
 });
