@@ -2,6 +2,7 @@
 var express = require('express');
 var suncalc = require('suncalc');
 var ct = require('color-temperature');
+var onecolor = require('onecolor');
 
 
 var app = express();
@@ -50,7 +51,7 @@ var setEvents = function(times, events){
   // Set afternoon 6000k
   // Set late afternoon 4300k
   // Set twilight 3500k
-  // Set sunset 200k
+  // Set sunset 2000k
   // Events we care about for light gradients
   var events = {
     dawn : {
@@ -63,7 +64,7 @@ var setEvents = function(times, events){
     },
     goldenHourEnd: {
       temp: 3600,
-      rgb: ct.colorTemperature2rgb(3600)
+      rgb: ct.colorTemperature2rgb(3600),
     },
     solarNoon: {
       temp: 6000,
@@ -83,13 +84,28 @@ var setEvents = function(times, events){
     }
   };
   for (var event in events){
-    event.time = times[event]
+    event.dateTime = times[event]
   }
   return events
 };
 
+var setColors = function(events){
+  rgbStr = function(rgb){
+    return 'rgb(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + (')')
+  }
+  for (var event in events){
+    event.hex = one.color(rgbStr(event.rgb)).hex();
+  }
+};
+
 var buildGradient = function(events){
-  // Stops
+  // Color stops. Max: 1 / minute
+  for (i=0, i < events.length, i++){
+    // in ms
+    var diff = events[i+1].dateTime - events[i].time;
+    // ms / 60,000 == m
+    var grad = Gradient()
+  }
   // dawn, sunrise, goldenHourEnd, solarNoon, goldenHour, sunset, dusk
 };
 
@@ -100,6 +116,13 @@ app.get('/', function(req, res, next){
   //lat = req.query.lat;
   //long = req.query.long;
   //res.render('index', {time: dateTime, kelvin: temp.kelvin, rgb: temp.rgb, hex: temp.hex, cmyk: temp.cmyk});
+});
+
+app.get('/api/v1/gradient', function(req, res, next){
+  // 
+});
+app.get('/api/v1/preset', function(req, res, next){
+
 });
 
 var server = app.listen(3000, function(){

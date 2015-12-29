@@ -7,8 +7,8 @@ module.exports = {
 		tasks: ['jshint:all']
 	},
 	browserify:{
-		files:['public/js/partials/**/*.js'],
-		tasks:['browserify', 'uglify:min'],
+		files:['public/js/app.js'],
+		tasks:['browserify'],
 		options: {
 			livereload: 1337
 		}

@@ -1,6 +1,6 @@
-smodule.exports = {
+module.exports = {
     dev:{
-    src:['public/js/partials/**/*.js'],
+    src:['public/js/app.js'],
     dest: 'public/js/bundle.js'
     }
 };
