@@ -2,7 +2,7 @@
 var express = require('express');
 var suncalc = require('suncalc');
 var ct = require('color-temperature');
-var onecolor = require('onecolor');
+var one = require('onecolor');
 
 
 var app = express();
@@ -44,7 +44,7 @@ var getTimes = function(dateTime, lat, long){
   return times
 };
 
-var setEvents = function(times, events){ 
+var setEvents = function(times){ 
   // Set sunrise 2000k
   // Set twilight 3500k
   // Set early morning 4300k
@@ -93,19 +93,26 @@ var setColors = function(events){
   rgbStr = function(rgb){
     return 'rgb(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + (')')
   }
-  for (var event in events){
-    event.hex = one.color(rgbStr(event.rgb)).hex();
+  for (i=0; i < events.length; i++){
+    color = one.color(rgbStr(events[i].rgb));
+    events[i].hex = color.hex();
+    events[i].hsv = color.hsv();
+    events[i].cmyk = color.cmyk();
   }
+  return events
 };
 
+// Gradient constructor
 var buildGradient = function(events){
   // Color stops. Max: 1 / minute
-  for (i=0, i < events.length, i++){
+  for (i=0; i < events.length; i++){
     // in ms
     var diff = events[i+1].dateTime - events[i].time;
     // ms / 60,000 == m
-    var grad = Gradient()
+    diff = round(diff/60,000);
+    events[i].gradient = Gradient(events[i].hex, events[i+1].hex, diff);
   }
+  return events
   // dawn, sunrise, goldenHourEnd, solarNoon, goldenHour, sunset, dusk
 };
 
@@ -119,6 +126,16 @@ app.get('/', function(req, res, next){
 });
 
 app.get('/api/v1/gradient', function(req, res, next){
+  if (!req.query.lat || !req.query.long){
+    res.status(500).json({error: 'You must specify lat & long coordinates. Example: ?lat=30.342&long=-78.123'})
+  }
+  else{
+    times = getTimes(new Date(), req.query.lat, req.query.long);
+    events = setEvents(times);
+    events = setColors(events);
+    events = buildGradient(events);
+    res.status(200).json(events)
+  }
   // 
 });
 app.get('/api/v1/preset', function(req, res, next){
