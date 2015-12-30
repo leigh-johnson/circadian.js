@@ -17,7 +17,7 @@
     "color-temperature": "^0.2.7",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
-    "gradient": "^0.2.0",
+    "gradient": "leigh-johnson/Gradient.js",
     "jade": "^1.11.0",
     "onecolor": "^2.5.0",
     "suncalc": "^1.7.0"
