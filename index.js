@@ -85,9 +85,6 @@ var setEvents = function(times, lat, long){
   };
   for (var event in events){
     events[event].dateTime = times[event];
-    // sun azimuth (direction along the horizon, measured from south to west), e.g. 0 is south and Math.PI * 3/4 is northwest
-    // in degrees
-    events[event].azimuth = (suncalc.getPosition(times[event], lat, long)).azimuth * 180 / Math.PI;
   }
   return events
 };
@@ -117,9 +114,9 @@ rgbObj = function(rgbStr){
            .replace(/ /g, '')
            .split(',');
   rgb = {
-    r: a[0],
-    g: a[1],
-    b: a[2]
+    r: parseInt(a[0]),
+    g: parseInt(a[1]),
+    b: parseInt(a[2])
   }
   return rgb
 }
@@ -166,7 +163,7 @@ var buildGradient = function(events){
     }
   }
 */
-var buildStops = function(events){
+var buildStops = function(events, lat, long){
     events = setColors(events);
     events = buildGradient(events);
     stops = {};
@@ -176,10 +173,9 @@ var buildStops = function(events){
         color =  onecolor(events[event].gradient[i]);
         rgb = rgbObj(color.rgb().css());
         stops[dateTime] = {
-          rbg: rgb,
+          rgb: rgb,
           hex: events[event].gradient[i],
-          hsv: color.hsv(),
-          cmyk: color.cmyk(),
+          pos: suncalc.getPosition(dateTime, lat, long)
         }
       }
       // end loop over gradient stops
@@ -205,7 +201,7 @@ app.get('/api/v1/gradient', function(req, res, next){
   else{
     times = getTimes(new Date(), req.query.lat, req.query.long);
     events = setEvents(times, req.query.lat, req.query.long);
-    data = buildStops(events);
+    data = buildStops(events, req.query.lat, req.query.long);
     res.status(200).json(data)
   }
   // 
