@@ -1,6 +1,6 @@
 module.exports = {
-    dev:{
+  dev:{
     src:['public/js/app.js'],
     dest: 'public/js/bundle.js'
-    }
+  }
 };

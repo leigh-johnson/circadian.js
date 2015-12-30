@@ -3,7 +3,7 @@ var express = require('express');
 var suncalc = require('suncalc');
 var ct = require('color-temperature');
 var onecolor = require('onecolor');
-
+var Gradient = require('gradient');
 
 var app = express();
 
@@ -92,10 +92,39 @@ var setEvents = function(times, lat, long){
   return events
 };
 
-var setColors = function(events){
-  rgbStr = function(rgb){
+// constructs an RGB str from obj with properties
+// .red, .blue, .green
+// OR .r, .g, .b
+// not strongly validated, for internal-use ONLY
+rgbStr = function(rgb){
+  if (rgb.red){
     return 'rgb(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + (')')
   }
+  if (rgb.r ){
+    return 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + (')')    
+  }
+}
+// constructs an object from RGB str 'rgb(225,225,225)'
+/* 
+  rgb: {
+    r: 225,
+    g: 225,
+    g: 225
+  }
+*/
+rgbObj = function(rgbStr){
+  a = rgbStr.substring(4, rgbStr.length-1)
+           .replace(/ /g, '')
+           .split(',');
+  rgb = {
+    r: a[0],
+    g: a[1],
+    b: a[2]
+  }
+  return rgb
+}
+var setColors = function(events){
+
   for (var event in events){
     color = onecolor(rgbStr(events[event].rgb));
     events[event].hex = color.hex();
@@ -116,20 +145,47 @@ var buildGradient = function(events){
     if (next == undefined){ next = 'dawn'}
     // in ms
     var diff = events[current].dateTime - events[next].dateTime;
-    // ms / 60,000 == m
-    diff = Math.round(diff/60,000);
-    console.log(diff)
-    //events[i].gradient = Gradient(events[i].hex, events[i+1].hex, diff);
+    // ms / 1000 /60 == m
+    diff = Math.round(diff/60000);
+    gradient = Gradient(events[current].hex, events[next].hex, Math.abs(diff));
+    events[current].gradient = gradient.toArray('hexString');
   }
   return events
   // dawn, sunrise, goldenHourEnd, solarNoon, goldenHour, sunset, dusk
 };
 
-// Events Constructor
-var buildColors = function(events){
+// Constructs per-minute color stop events
+/* 
+  { dateTime: {
+    r: 225,
+    g: 225,
+    b: 225,
+    hex: '#ffffff',
+    hsv: 0.01,
+
+    }
+  }
+*/
+var buildStops = function(events){
     events = setColors(events);
     events = buildGradient(events);
-    return events
+    stops = {};
+    for (var event in events){
+      for (var i=0; i < events[event].gradient.length; i++){
+        dateTime = new Date(events[event].dateTime.getTime() + i*60000);
+        color =  onecolor(events[event].gradient[i]);
+        rgb = rgbObj(color.rgb().css());
+        stops[dateTime] = {
+          rbg: rgb,
+          hex: events[event].gradient[i],
+          hsv: color.hsv(),
+          cmyk: color.cmyk(),
+        }
+      }
+      // end loop over gradient stops
+    }
+    // end loop over event categories
+    return stops
 }
 
 app.get('/', function(req, res, next){
@@ -141,6 +197,7 @@ app.get('/', function(req, res, next){
   //res.render('index', {time: dateTime, kelvin: temp.kelvin, rgb: temp.rgb, hex: temp.hex, cmyk: temp.cmyk});
 });
 
+
 app.get('/api/v1/gradient', function(req, res, next){
   if (!req.query.lat || !req.query.long){
     res.status(500).json({error: 'You must specify lat & long coordinates. Example: ?lat=30.342&long=-78.123'})
@@ -148,7 +205,7 @@ app.get('/api/v1/gradient', function(req, res, next){
   else{
     times = getTimes(new Date(), req.query.lat, req.query.long);
     events = setEvents(times, req.query.lat, req.query.long);
-    data = buildColors(events);
+    data = buildStops(events);
     res.status(200).json(data)
   }
   // 
