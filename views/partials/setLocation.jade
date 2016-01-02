@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  div()
+    .container()
+      .jumbotron
+        h1.text-center() Fetching your current location... 
+
+append js
+  script.
+    navigator.geolocation.getCurrentPosition(function(position){
+      window.location.search = '?lat='+ position.coords.latitude + '&long=' +position.coords.longitude;
+      });

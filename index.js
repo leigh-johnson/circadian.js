@@ -185,7 +185,10 @@ var buildStops = function(events, lat, long){
 }
 
 app.get('/', function(req, res, next){
-  res.render('index')
+  if (!req.query.lat || !req.query.long){
+    res.render('partials/setLocation')
+  }
+  else {res.render('index', {lat: req.query.lat, long: req.query.long})}
 });
 
 
