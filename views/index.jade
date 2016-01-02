@@ -4,4 +4,7 @@ block content
   div(ng-app='previewApp')
     .container(ng-ctrl='PreviewCtrl')
       | #{lat}
+      .input-group
+        input.form-control(type='number' ng-model='position.lat' placeholder='#{lat}')
+        input.form-control(type='number' ng-model='position.long' placeholder='#{long}')
 
