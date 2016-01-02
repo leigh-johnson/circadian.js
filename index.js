@@ -186,11 +186,6 @@ var buildStops = function(events, lat, long){
 
 app.get('/', function(req, res, next){
   res.render('index')
-  // /times = getTimes(new Date(), )
-  //dateTime = req.query.dateTime;
-  //lat = req.query.lat;
-  //long = req.query.long;
-  //res.render('index', {time: dateTime, kelvin: temp.kelvin, rgb: temp.rgb, hex: temp.hex, cmyk: temp.cmyk});
 });
 
 
@@ -211,8 +206,6 @@ app.get('/api/v1/gradient', function(req, res, next){
     catch(err){
       res.status(500).json({error: 'dateTime must be in valid format: yyyy-mm-dd'})
     }
-    console.log(req.query.dateTime)
-    console.log(dateTime)
     times = getTimes(dateTime, req.query.lat, req.query.long);
     events = setEvents(times, req.query.lat, req.query.long);
     data = buildStops(events, req.query.lat, req.query.long);
@@ -220,11 +213,8 @@ app.get('/api/v1/gradient', function(req, res, next){
   }
   // 
 });
-app.get('/api/v1/preset', function(req, res, next){
 
-});
-
-var server = app.listen(3000, function(){
+var server = app.listen(process.env.PORT || 3000, function(){
 var host = server.address().address;
 var port = server.address().port;
 });
