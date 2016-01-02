@@ -198,11 +198,25 @@ app.get('/api/v1/gradient', function(req, res, next){
   if (!req.query.lat || !req.query.long){
     res.status(500).json({error: 'You must specify lat & long coordinates. Example: ?lat=30.342&long=-78.123'})
   }
-  else{
+  if (!req.query.dateTime){
     times = getTimes(new Date(), req.query.lat, req.query.long);
     events = setEvents(times, req.query.lat, req.query.long);
     data = buildStops(events, req.query.lat, req.query.long);
     res.status(200).json(data)
+  }
+  else{
+    try{
+      dateTime = new Date(req.query.dateTime)
+    }
+    catch(err){
+      res.status(500).json({error: 'dateTime must be in valid format: yyyy-mm-dd'})
+    }
+    console.log(req.query.dateTime)
+    console.log(dateTime)
+    times = getTimes(dateTime, req.query.lat, req.query.long);
+    events = setEvents(times, req.query.lat, req.query.long);
+    data = buildStops(events, req.query.lat, req.query.long);
+    res.status(200).json(data)    
   }
   // 
 });
