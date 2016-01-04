@@ -17,6 +17,20 @@ html
         link(href='/styles/site.css' rel='stylesheet')
         block css
     body
+        block nav
+            nav.navbar.navbar-default.navbar-fixed-top: .container
+                .navbar-header
+                    button.navbar-toggle.collapsed(
+                    type='button' data-toggle='collapse' aria-expanded='false' target='#nav-collapse')
+                .collapse.navbar-collapse#nav-collapse
+                    ul.nav.navbar-nav
+                        li.active: a(href='/') Intro
+                        li.dropdown
+                            a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') Examples #[span.caret]
+                            ul.dropdown-menu
+                                li: a(href='#') Natural Lighting (Three.js)
+                        li: a(href='/docs') API Documentation
+
         block content
         block js
             script(src='/js/bundle.js')

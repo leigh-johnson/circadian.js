@@ -1,3 +1,6 @@
+var $ = require('jquery');
+window.jQuery = $;
+require('bootstrap');
 require('angular');
 require('angular-route')
 require('angular-ui-bootstrap');

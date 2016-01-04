@@ -2,9 +2,40 @@ extends layout
 
 block content
   div(ng-app='previewApp')
+    .jumbotron
+      .container
+          h1 Circadian.Js
+          h3.col-sm-10 A library for calculating the 
+            span(style='color:#ffc085;') c
+            span(style='color:#ffbc7d;') o
+            span(style='color:#ffb874;') l
+            span(style='color:#ffb46c;') o
+            span(style='color:#ffb064;') r
+            span(style='color:#ffac5b;')  
+            span(style='color:#ffa853;') t
+            span(style='color:#ffa44b;') e
+            span(style='color:#ffa043;') m
+            span(style='color:#ff9c3a;') p
+            span(style='color:#ff9832;') e
+            span(style='color:#ff942a;') r
+            span(style='color:#ff9021;') a
+            span(style='color:#ff8c19;') t
+            span(style='color:#ff8811;') u
+            span(style='color:#ff8408;') r
+            span(style='color:#ff8000;') e
+            |  and #[span.text-shadow horizontal shadow angle] of sunlight.
     .container(ng-ctrl='PreviewCtrl')
-      | #{lat}
-      .input-group
-        input.form-control(type='number' ng-model='position.lat' placeholder='#{lat}')
-        input.form-control(type='number' ng-model='position.long' placeholder='#{long}')
+      .row
+        .col-sm-8
+          h3 Change location
+        .col-sm-5
+          .input-group
+            span.input-group-addon Latitude
+            input.form-control(type='number' ng-model='position.lat' value='position.lat' ng-init='position.lat = #{lat}')
+        .col-sm-5
+          .input-group
+            span.input-group-addon Longitude
+            input.form-control(type='number' ng-model='position.long' value='position.long' ng-init='position.long = #{long}')
+        .col-sm-1
+          button.btn.btn-primary Update
 
