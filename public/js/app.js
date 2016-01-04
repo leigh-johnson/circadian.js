@@ -4,6 +4,7 @@ require('bootstrap');
 require('angular');
 require('angular-route')
 require('angular-ui-bootstrap');
+require('angular-google-maps');
 
 // 
 var setCoords = function($rootScope){

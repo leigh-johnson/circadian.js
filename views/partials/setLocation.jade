@@ -1,13 +1,23 @@
 extends ../layout
 
 block content
-  div()
+  .jumbotron
     .container()
-      .jumbotron
-        h1.text-center() Fetching your current location... 
+        .row
+          h1.text-center Fetching current location...
+        .row.well
+          .col-md-4
+            img.img-thumbnail(src='/images/allow-location.jpg')
+            .caption.text-center Press "Allow"
+          .col-md-8
+            h3 This demonstration requires your geolocation for the best possible experience.
+        .row 
+          h1.text-center Privacy concerns? 
+          h3.text-center: small No problem. Set a location below:
 
 append js
   script.
     navigator.geolocation.getCurrentPosition(function(position){
       window.location.search = '?lat='+ position.coords.latitude + '&long=' +position.coords.longitude;
       });
+  script(src='//maps.googleapis.com/maps/api/js?sensor=false')

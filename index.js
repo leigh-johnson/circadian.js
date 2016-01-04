@@ -1,4 +1,4 @@
-//require('dotenv').load();
+require('dotenv').load();
 var express = require('express');
 var suncalc = require('suncalc');
 var ct = require('color-temperature');
@@ -184,11 +184,25 @@ var buildStops = function(events, lat, long){
     return stops
 }
 
+// Livereload address
+
+var os = require('os');
+var interfaces = os.networkInterfaces();
+var addresses = [];
+for (var n in interfaces){
+  for (var i in interfaces[n]){
+    var address = interfaces[n][i];
+    if (address.family == 'IPv4' && !address.internal){
+      addresses.push(address.address);
+    }
+  }
+}
+
 app.get('/', function(req, res, next){
   if (!req.query.lat || !req.query.long){
-    res.render('partials/setLocation')
+    res.render('partials/setLocation', {env: process.env.NODE_ENV || 'production', address: addresses[0]})
   }
-  else {res.render('index', {lat: req.query.lat, long: req.query.long})}
+  else {res.render('index', {lat: req.query.lat, long: req.query.long, env: process.env.NODE_ENV || 'production', address: addresses[0]})}
 });
 
 

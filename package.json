@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "angular": "^1.4.8",
+    "angular-google-maps": "^2.2.1",
     "angular-route": "^1.4.8",
     "bootstrap-sass": "^3.3.6",
     "bootswatch": "^3.3.6",

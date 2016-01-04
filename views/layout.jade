@@ -8,7 +8,7 @@ html
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(property="og:url" content="")
         meta(property="og:type" content="website")
-        meta(property="og:title" content="Circadian API")
+        meta(property="og:title" content="Circadian.Js")
         meta(property="og:description" content="Circadian is a tool to calculate the color temperature of light at any time of day")
         meta(property="og:image" content="")
         meta(property="og:image:width" content="768")
@@ -34,3 +34,5 @@ html
         block content
         block js
             script(src='/js/bundle.js')
+            if env == 'development'
+                script(src='//'+address+':1337/livereload.js')
