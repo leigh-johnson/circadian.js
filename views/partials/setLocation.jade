@@ -1,23 +1,30 @@
 extends ../layout
 
 block content
-  .jumbotron
-    .container()
-        .row
-          h1.text-center Fetching current location...
-        .row.well
-          .col-md-4
-            img.img-thumbnail(src='/images/allow-location.jpg')
-            .caption.text-center Press "Allow"
-          .col-md-8
-            h3 This demonstration requires your geolocation for the best possible experience.
-        .row 
-          h1.text-center Privacy concerns? 
-          h3.text-center: small No problem. Set a location below:
+  div(ng-app='previewApp')
+    div(ng-controller='PreviewCtrl')
+      .jumbotron
+        .container
+            .row
+              h1.text-center Fetching current location...
+            .row.well
+              .col-xs-4
+                img.img-thumbnail(src='/images/allow-location.jpg')
+                .caption.text-center Press "Allow"
+              .col-xs-8
+                h3 This demonstration requires your geolocation for the best possible experience.
+            .row 
+              .col-xs-12
+                h1.text-center Privacy concerns? 
+                h3.text-center: small No problem. Manually set a location below:
+              .col-xs-6
+              .col-xs-12
+                ui-gmap-google-map(center='map.center' zoom='map.zoom')
+                  ui-gmap-search-box(events='{places_changed: updateLocation()}' template='')
 
-append js
-  script.
+append head-js
+  //script.
     navigator.geolocation.getCurrentPosition(function(position){
       window.location.search = '?lat='+ position.coords.latitude + '&long=' +position.coords.longitude;
       });
-  script(src='//maps.googleapis.com/maps/api/js?sensor=false')
+  script(src='//maps.googleapis.com/maps/api/js?sensor=false&libraries=places')

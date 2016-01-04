@@ -21,7 +21,8 @@ module.exports = {
 		}
 	},
 	jade: {
-		files: ['templates/**/*.jade'],
+		files: ['views/**/*.jade'],
+		tasks: ['jade:compile'],
 		options: {
 			livereload: 1337
 		}

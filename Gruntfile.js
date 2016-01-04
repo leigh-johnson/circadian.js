@@ -30,6 +30,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', [
     'sass:dev',
     'browserify:dev',
+    'jade:compile',
     //'uglify:min',
     //'sass:min',
     'watch'

@@ -8159,4 +8159,8 @@ body {
   text-shadow: 4px 2px 2px #969696;
 }
 
+.angular-google-map-container {
+  height: 420px;
+}
+
 /*# sourceMappingURL=site.css.map */

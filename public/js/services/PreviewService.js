@@ -1,4 +1,4 @@
-var PreviewService = function($scope, $rootscope, $location, PreviewService){
+var PreviewService = function($http, $q){
 
 };
 
