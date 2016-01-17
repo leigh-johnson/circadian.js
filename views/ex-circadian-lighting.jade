@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  if (!lat || !long)
+    block setLocation
+      include partials/setLocation

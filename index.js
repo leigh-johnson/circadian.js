@@ -199,10 +199,13 @@ for (var n in interfaces){
 }
 
 app.get('/', function(req, res, next){
+  /*
   if (!req.query.lat || !req.query.long){
-    res.render('partials/setLocation', {env: process.env.NODE_ENV || 'production', address: addresses[0]})
+    res.render('index', {env: process.env.NODE_ENV || 'production', address: addresses[0]})
   }
   else {res.render('index', {lat: req.query.lat, long: req.query.long, env: process.env.NODE_ENV || 'production', address: addresses[0]})}
+  */
+  res.render('index', {env: process.env.NODE_ENV || 'production', address: addresses[0]})
 });
 
 
@@ -228,7 +231,16 @@ app.get('/api/v1/gradient', function(req, res, next){
     data = buildStops(events, req.query.lat, req.query.long);
     res.status(200).json(data)    
   }
-  // 
+});
+
+// Example routes
+
+app.get('/examples/circadian-lighting', function(req, res, next){
+  if (!req.query.lat || !req.query.long){
+    res.render('ex-circadian-lighting', {env: process.env.NODE_ENV || 'production', address: addresses[0]})
+  }
+  else {res.render('ex-circadian-lighting', {lat: req.query.lat, long: req.query.long, env: process.env.NODE_ENV || 'production', address: addresses[0]})}
+
 });
 
 var server = app.listen(process.env.PORT || 3000, function(){
