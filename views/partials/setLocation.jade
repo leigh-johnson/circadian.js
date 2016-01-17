@@ -4,27 +4,54 @@ block content
   div(ng-app='locationApp')
     div(ng-controller='LocationCtrl')
       .jumbotron
-        .container
-            .row
-              h1.text-center Fetching current location...
-            .row.well
-              .col-xs-4
-                img.img-thumbnail(src='/images/allow-location.jpg')
-                .caption.text-center Press "Allow"
-              .col-xs-8
-                h3 This demonstration requires your geolocation for the best possible experience.
-            .row 
-              .col-xs-12
-                h1.text-center Privacy concerns? 
-                h3.text-center: small No problem. Manually set a location below.
-                p.text-center: small The location you set will be stored in a cookie.
-              .col-xs-12
-                .well.input-group#searchbox
-                  span#setLocationSubmit.btn.btn-primary.input-group-addon(type='button' ng-click='$apply()') Set Location
-              .col-xs-12
-                ui-gmap-google-map(center='map.center' zoom='map.zoom')
-                  ui-gmap-search-box(events='searchbox.events' template='searchbox.template' parentdiv='searchbox.parentdiv')
-                  ui-gmap-marker(coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id")
+        .container-fluid#intro
+            ul.list-group.col-xs-5.pull-right
+              li.list-group-item #[span.fa.fa-lightbulb-o.pull-right] Power a home lighting system in sync with Circadian rhythms
+              li.list-group-item #[span.fa.fa-sun-o.fa-spin.pull-right] Render photo-realistic sunlight in 2D/3D animations
+              li.list-group-item #[span.fa.fa-pagelines.pull-right] Optimize plant grow cycles with native habitat lighting
+            h1.pull-left Circadian.Js
+            h4.col-xs-6.pull-left A library for calculating the realtime
+              span(style='color:#ffc085;') c
+              span(style='color:#ffbc7d;') o
+              span(style='color:#ffb874;') l
+              span(style='color:#ffb46c;') o
+              span(style='color:#ffb064;') r
+              span(style='color:#ffac5b;')  
+              span(style='color:#ffa853;') t
+              span(style='color:#ffa44b;') e
+              span(style='color:#ffa043;') m
+              span(style='color:#ff9c3a;') p
+              span(style='color:#ff9832;') e
+              span(style='color:#ff942a;') r
+              span(style='color:#ff9021;') a
+              span(style='color:#ff8c19;') t
+              span(style='color:#ff8811;') u
+              span(style='color:#ff8408;') r
+              span(style='color:#ff8000;') e
+              |  and #[span.text-shadow horizontal shadow angle] of sunlight, anywhere in the world.
+        .container-fluid.panel
+          .container
+              .row
+                h2.text-center Fetching current location...
+              .row
+                .col-xs-6
+                  center
+                    img.img-thumbnail(src='/images/allow-location.jpg')
+                    .caption.text-center Press "Allow"
+                .col-xs-6
+                  h4 This demonstration requires your geolocation for the best possible experience.
+              .row
+                .col-xs-12
+                  h2.text-center Privacy concerns? 
+                  h3.text-center: small No problem. Manually set a location below.
+                  p.text-center: small The location you set will be stored in an ecrypted cookie.
+                .col-xs-12
+                  .well.input-group#searchbox
+                    span#setLocationSubmit.btn.btn-primary.input-group-addon(type='button' ng-click='setLocation()') Use this location
+                .col-xs-12
+                  ui-gmap-google-map(center='map.center' zoom='map.zoom')
+                    ui-gmap-search-box(events='searchbox.events' template='searchbox.template' parentdiv='searchbox.parentdiv')
+                    ui-gmap-marker(coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id")
 
 append head-js
   //script.

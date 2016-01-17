@@ -2,6 +2,7 @@
 @import 'bootstrap';
 @import 'paper/bootswatch';
 @import 'bourbon/bourbon';
+@import 'font-awesome';
 body{
   padding-top: 70px;
 }
@@ -15,4 +16,11 @@ text-shadow: 4px 2px 2px rgba(150, 150, 150, 1);}
 
 #searchbox input{
   @include margin(null 1em null 1em);
+}
+
+#intro ul span.fa {
+  font-size: 2em;
+}
+#intro h1{
+  @include margin(0px null null null);
 }

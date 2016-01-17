@@ -5,7 +5,7 @@ var LocationController = function($scope, $rootscope, $location, LocationService
   });
   };
   $scope.setLocation = function(){
-    console.log('set location $scope.position '+$scope.position)
+    window.location.search = '?lat='+ $scope.map.center.latitude + '&long=' + $scope.map.center.longitude;
   }
   $scope.getNavigatorLocation();
   $scope.map = { center: { latitude: 35.787743, longitude: -78.644257 }, zoom: 8 };
@@ -45,7 +45,7 @@ var LocationController = function($scope, $rootscope, $location, LocationService
             longitude: place[0].geometry.location.lng()
         }
     };
-  }
+  };
   var events = {
     places_changed: updateLocation
   };

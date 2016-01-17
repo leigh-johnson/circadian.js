@@ -20,6 +20,7 @@
     "color-temperature": "^0.2.7",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
+    "font-awesome": "^4.5.0",
     "gradient": "leigh-johnson/Gradient.js",
     "jade": "^1.11.0",
     "jquery": "^2.1.4",

@@ -2,8 +2,7 @@ module.exports = {
 	dev: {
     options: {
       style: 'expanded',
-      sourcemap: true,
-      loadPath: ['node_modules/bootstrap-sass/assets/stylesheets', 'node_modules/bootswatch']
+      loadPath: ['node_modules/bootstrap-sass/assets/stylesheets', 'node_modules/bootswatch', 'node_modules/font-awesome/scss']
     },
     files: {
       'public/styles/site.css': 'src/styles/site.scss',
@@ -12,8 +11,7 @@ module.exports = {
   min:{
     options:{
         style: 'compressed',
-        sourcemap: false,
-        loadPath: ['node_modules/bootstrap-sass/assets/stylesheets', 'node_modules/bootswatch']
+        loadPath: ['node_modules/bootstrap-sass/assets/stylesheets', 'node_modules/bootswatch', 'node_modules/font-awesome/scss']
     },
     files: {
       'public/styles/site.min.css': 'public/styles/site.scss',
