@@ -8,12 +8,12 @@ var LocationController = function($scope, $rootscope, $location, LocationService
     console.log('set location $scope.position '+$scope.position)
   }
   $scope.getNavigatorLocation();
-  $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+  $scope.map = { center: { latitude: 35.787743, longitude: -78.644257 }, zoom: 8 };
   $scope.marker = {
       id: 0,
       coords: {
-          latitude: 45,
-          longitude: -73
+          latitude: 35.787743,
+          longitude: -78.644257
       },
       options: { draggable: true },
       events: {
