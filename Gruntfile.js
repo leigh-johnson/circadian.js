@@ -31,6 +31,7 @@ module.exports = function(grunt) {
     'sass:dev',
     'browserify:dev',
     'jade:compile',
+    //'html2js:compile',
     //'uglify:min',
     //'sass:min',
     'watch'

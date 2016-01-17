@@ -6,7 +6,7 @@ module.exports = {
       loadPath: ['node_modules/bootstrap-sass/assets/stylesheets', 'node_modules/bootswatch']
     },
     files: {
-      'public/styles/site.css': 'public/styles/site.scss',
+      'public/styles/site.css': 'src/styles/site.scss',
     }
   },
   min:{

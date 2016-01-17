@@ -76174,7 +76174,6 @@ var $ = require('jquery');
 window.jQuery = $;
 var _ = require('lodash');
 window._ = _
-console.log(_)
 require('bootstrap');
 require('angular');
 require('angular-route')
@@ -76183,43 +76182,82 @@ require('angular-google-maps');
 require('angular-simple-logger');
 
 
-var PreviewService = require('./services/PreviewService');
-var PreviewController = require('./controllers/PreviewController');
+var LocationService = require('./services/LocationService');
+var LocationController = require('./controllers/LocationController');
 
 // The preview app is a small demonstration for the intro page
-var previewApp = angular.module('previewApp', ['ngRoute','ui.bootstrap', 'uiGmapgoogle-maps'])
-  .service('PreviewService', PreviewService)
-  .controller('PreviewCtrl', ['$scope', '$rootScope', '$location', 'PreviewService', PreviewController]);
-
+var previewApp = angular.module('locationApp', ['ngRoute','ui.bootstrap', 'uiGmapgoogle-maps'])
+  .service('LocationService', LocationService)
+  .controller('LocationCtrl', ['$scope', '$rootScope', '$location', 'LocationService', LocationController]);
 
 // Example 01 using Three.js
 //var Example01Service = require('./services/Example01Service');
 //var Example01Controller = require('./controllers/Example01Controller');
 
-//var example01App = angular.module('example01App', ['ngRoute', 'ui.bootstrap', 'uiGmapgoogle-maps'])
-},{"./controllers/PreviewController":15,"./services/PreviewService":16,"angular":11,"angular-google-maps":1,"angular-route":3,"angular-simple-logger":4,"angular-ui-bootstrap":8,"bootstrap":"bootstrap","jquery":12,"lodash":13}],15:[function(require,module,exports){
-var PreviewController = function($scope, $rootscope, $location, PreviewService){
+//var example01App = angular.module('example01App', ['ngRoute', 'ui.bootstrap'])
+},{"./controllers/LocationController":15,"./services/LocationService":16,"angular":11,"angular-google-maps":1,"angular-route":3,"angular-simple-logger":4,"angular-ui-bootstrap":8,"bootstrap":"bootstrap","jquery":12,"lodash":13}],15:[function(require,module,exports){
+var LocationController = function($scope, $rootscope, $location, LocationService){
   $scope.getNavigatorLocation = function(){
     navigator.geolocation.getCurrentPosition(function(position){
       window.location.search = '?lat='+ position.coords.latitude + '&long=' +position.coords.longitude;
   });
   };
+  $scope.setLocation = function(){
+    console.log('set location $scope.position '+$scope.position)
+  }
   $scope.getNavigatorLocation();
   $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
-  $scope.searchbox.events = {
-    places_changed: updateLocation()
-  }
-  $scope.updateLocation = function(){
+  $scope.marker = {
+      id: 0,
+      coords: {
+          latitude: 45,
+          longitude: -73
+      },
+      options: { draggable: true },
+      events: {
+          dragend: function (marker, eventName, args) {
+
+              $scope.marker.options = {
+                  draggable: true,
+                  labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
+                  labelAnchor: "100 0",
+                  labelClass: "marker-labels"
+              };
+          }
+      }
+  };  
+  var updateLocation = function(searchBox){
     console.log('place changed')
+    var place = searchBox.getPlaces();
+    $scope.map = {
+        "center": {
+            "latitude": place[0].geometry.location.lat(),
+            "longitude": place[0].geometry.location.lng()
+        },
+        "zoom": 18
+    };
+    $scope.marker = {
+        id: 0,
+        coords: {
+            latitude: place[0].geometry.location.lat(),
+            longitude: place[0].geometry.location.lng()
+        }
+    };
+  }
+  var events = {
+    places_changed: updateLocation
   };
+  $scope.searchbox = {template: './js/templates/searchbox.html', events: events, parentdiv: 'searchbox', options:{
+    autocomplete: true
+  }};
 };
-module.exports = PreviewController;
+module.exports = LocationController;
 },{}],16:[function(require,module,exports){
-var PreviewService = function($http, $q){
+var LocationService = function($http, $q){
 
 };
 
-module.exports = PreviewService;
+module.exports = LocationService;
 },{}],"bootstrap":[function(require,module,exports){
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)

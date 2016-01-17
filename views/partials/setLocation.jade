@@ -1,8 +1,8 @@
 extends ../layout
 
 block content
-  div(ng-app='previewApp')
-    div(ng-controller='PreviewCtrl')
+  div(ng-app='locationApp')
+    div(ng-controller='LocationCtrl')
       .jumbotron
         .container
             .row
@@ -16,11 +16,15 @@ block content
             .row 
               .col-xs-12
                 h1.text-center Privacy concerns? 
-                h3.text-center: small No problem. Manually set a location below:
-              .col-xs-6
+                h3.text-center: small No problem. Manually set a location below.
+                p.text-center: small The location you set will be stored in a cookie.
+              .col-xs-12
+                .well.input-group#searchbox
+                  span#setLocationSubmit.btn.btn-primary.input-group-addon(type='button' ng-click='$apply()') Set Location
               .col-xs-12
                 ui-gmap-google-map(center='map.center' zoom='map.zoom')
-                  ui-gmap-search-box(events='{places_changed: updateLocation()}' template='')
+                  ui-gmap-search-box(events='searchbox.events' template='searchbox.template' parentdiv='searchbox.parentdiv')
+                  ui-gmap-marker(coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id")
 
 append head-js
   //script.

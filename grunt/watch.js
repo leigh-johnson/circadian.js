@@ -14,7 +14,7 @@ module.exports = {
 		}
 	},
 	sass: {
-		files: ['public/styles/**/*.scss'],
+		files: ['src/styles/**/*.scss'],
 		tasks: ['sass'],
 		options: {
 			livereload: 1337
@@ -22,7 +22,6 @@ module.exports = {
 	},
 	jade: {
 		files: ['views/**/*.jade'],
-		tasks: ['jade:compile'],
 		options: {
 			livereload: 1337
 		}

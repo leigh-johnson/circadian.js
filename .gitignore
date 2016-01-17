@@ -3,6 +3,8 @@
 logs
 *.log
 
+.tmp
+
 .sass-cache
 
 # Text editor

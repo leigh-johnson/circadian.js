@@ -8163,4 +8163,9 @@ body {
   height: 420px;
 }
 
+#searchbox input {
+  margin-right: 1em;
+  margin-left: 1em;
+}
+
 /*# sourceMappingURL=site.css.map */
