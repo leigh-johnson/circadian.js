@@ -1,29 +1,30 @@
 extends layout
 block content
     .container-fluid.jumbotron#intro
-        ul.list-group.col-xs-5.pull-right
+        .col-xs-12.pull-left.col-md-6
+          h1 Circadian.Js #[small Live Demo]
+          h4 A library for calculating the realtime 
+            span(style='color:#ffc085;') c
+            span(style='color:#ffbc7d;') o
+            span(style='color:#ffb874;') l
+            span(style='color:#ffb46c;') o
+            span(style='color:#ffb064;') r
+            span(style='color:#ffac5b;')  
+            span(style='color:#ffa853;') t
+            span(style='color:#ffa44b;') e
+            span(style='color:#ffa043;') m
+            span(style='color:#ff9c3a;') p
+            span(style='color:#ff9832;') e
+            span(style='color:#ff942a;') r
+            span(style='color:#ff9021;') a
+            span(style='color:#ff8c19;') t
+            span(style='color:#ff8811;') u
+            span(style='color:#ff8408;') r
+            span(style='color:#ff8000;') e
+            |  and #[span.text-shadow horizontal shadow angle] of sunlight, anywhere in the world.
+        ul.list-group.col-xs-12.pull-right.col-md-5
           li.list-group-item #[span.fa.fa-lightbulb-o.pull-right] Power a home lighting system in sync with circadian rhythms
           li.list-group-item #[span.fa.fa-sun-o.pull-right] Render photo-realistic sunlight in 2D/3D animations
           li.list-group-item #[span.fa.fa-pagelines.pull-right] Optimize plant grow cycles with native habitat lighting
-        h1.pull-left Circadian.Js #[small Live Demo]
-        h4.col-xs-6.pull-left A library for calculating the realtime 
-          span(style='color:#ffc085;') c
-          span(style='color:#ffbc7d;') o
-          span(style='color:#ffb874;') l
-          span(style='color:#ffb46c;') o
-          span(style='color:#ffb064;') r
-          span(style='color:#ffac5b;')  
-          span(style='color:#ffa853;') t
-          span(style='color:#ffa44b;') e
-          span(style='color:#ffa043;') m
-          span(style='color:#ff9c3a;') p
-          span(style='color:#ff9832;') e
-          span(style='color:#ff942a;') r
-          span(style='color:#ff9021;') a
-          span(style='color:#ff8c19;') t
-          span(style='color:#ff8811;') u
-          span(style='color:#ff8408;') r
-          span(style='color:#ff8000;') e
-          |  and #[span.text-shadow horizontal shadow angle] of sunlight, anywhere in the world.
     block setLocation
       include partials/setLocation

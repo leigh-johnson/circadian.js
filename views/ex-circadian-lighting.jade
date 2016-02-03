@@ -1,6 +1,15 @@
 extends layout
 
 block content
+  h1.text-center.page-header Home Lighting System
   if (!lat || !long)
+    h3.text-center First, set your location
     block setLocation
       include partials/setLocation
+  else
+    .container(ng-app='lightApp' model='location' ng-init='lat=#{lat};long=#{long}')
+      div(ng-controller='LightCtrl')
+        .row
+          .col-xs-6
+          .col-xs-6
+            #light.fa.fa-lightbulb-o

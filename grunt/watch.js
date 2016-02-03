@@ -15,7 +15,7 @@ module.exports = {
 	},
 	sass: {
 		files: ['src/styles/**/*.scss'],
-		tasks: ['sass'],
+		tasks: ['sass:dev'],
 		options: {
 			livereload: 1337
 		}

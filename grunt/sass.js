@@ -14,7 +14,7 @@ module.exports = {
         loadPath: ['node_modules/bootstrap-sass/assets/stylesheets', 'node_modules/bootswatch', 'node_modules/font-awesome/scss']
     },
     files: {
-      'public/styles/site.min.css': 'public/styles/site.scss',
+      'public/styles/site.min.css': 'src/styles/site.scss',
     }
   }
 };

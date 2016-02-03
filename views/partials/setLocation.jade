@@ -15,7 +15,7 @@ block setLocation
             span#setLocationSubmit.btn.btn-primary.input-group-addon(type='button' ng-click='setLocation()') Use this location
       .row
         .col-xs-12.well
-          ui-gmap-google-map(center='map.center' zoom='map.zoom')
+          ui-gmap-google-map(center='map.center' zoom='map.zoom' control='map.control')#map
             ui-gmap-search-box(events='searchbox.events' template='searchbox.template' parentdiv='searchbox.parentdiv')
             ui-gmap-marker(coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id")
 
@@ -24,4 +24,4 @@ append head-js
     navigator.geolocation.getCurrentPosition(function(position){
       window.location.search = '?lat='+ position.coords.latitude + '&long=' +position.coords.longitude;
       });
-  script(src='//maps.googleapis.com/maps/api/js?sensor=false&libraries=places')
+  script(src='//maps.googleapis.com/maps/api/js?sensor=false&libraries=places,timezone')

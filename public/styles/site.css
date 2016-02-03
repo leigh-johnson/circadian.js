@@ -10899,4 +10899,14 @@ body {
   height: 14em;
 }
 
+#light {
+  font-size: 20em;
+  position: relative;
+}
+
+#light {
+  background: -webkit-radial-gradient(ellipse, yellow 10%, rgba(225, 225, 225, 0) 50%);
+  background: radial-gradient(ellipse, yellow 10%, rgba(225, 225, 225, 0) 50%);
+}
+
 /*# sourceMappingURL=site.css.map */
